@@ -6,7 +6,7 @@
 
 theme_path="/home/$USER/.config/rofi/nord.rasi"
 rofi_command="rofi -theme $theme_path"
-notes_file_path="./.apuntes.block"
+notes_file_path="/home/$USER/.apuntes.block"
 
 ## Menu options
 type_categorie=" Alta\n Media\n Baja"
@@ -85,11 +85,13 @@ fi
 ### Envía notificaciones al sistema y saca un string con el recuento de tareas por tipo.
 if [[ $1 == "-r" ]];
 then
-	date_note=$(date +'%d/%m/%Y %H:%M')
-	exec_notes=$(echo "$notes_file_path" | grep "$date_note" | cut -d "|" -f 3)
+	date_note=$(date +'%d-%m-%Y %H:%M')
+	echo -e $date_note
+
+	exec_notes=$(cat "$notes_file_path" | grep "$date_note" | cut -d "|" -f 3)
 	if [[ $exec_notes != "" ]];
 	then
-		result=$(notify-send "$exec_notes")
+		notify-send  "TakeNotesRofi" "$exec_notes"
 	fi	
   ## Contador de tareas por prioridad.	
 	low_priority=$(cat $notes_file_path | grep "Baja" | wc -l)
@@ -98,4 +100,3 @@ then
 
 	echo -e " $high_priority  $medium_priority  $low_priority"
 fi
-
