@@ -86,8 +86,7 @@ fi
 if [[ $1 == "-r" ]];
 then
 	date_note=$(date +'%d-%m-%Y %H:%M')
-	echo -e $date_note
-
+	
 	exec_notes=$(cat "$notes_file_path" | grep "$date_note" | cut -d "|" -f 3)
 	if [[ $exec_notes != "" ]];
 	then
